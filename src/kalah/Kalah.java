@@ -14,7 +14,7 @@ public class Kalah {
 		new Kalah().play(new MockIO());
 	}
 	public void play(IO io) {
-		Printer printer = Printer.getInstance();
+		Printer printer = new Printer(io);
 		Rules rules = Rules.getInstance();
 		// Replace what's below with your implementation
 //		io.println("+----+-------+-------+-------+-------+-------+-------+----+");
@@ -32,8 +32,8 @@ public class Kalah {
 
 			String playerMove = printer.playerMove(board.getCurrentPlayerTurn());
 
-			if (playerMove == "q") {
-				rules.gameEnded(board);
+			if (playerMove.equals("q")) {
+				printer.printGameOver(board);
 				break;
 			} else {
 				int chosenHouse = Integer.parseInt(playerMove);
