@@ -15,20 +15,24 @@ import static kalah.Utility.GameConfig.NUMBER_OF_HOUSES;
  */
 public class Printer {
 
-    private static Printer _printer = new Printer();
-    private IO io = new MockIO();
-    private Printer() { }
+//    private static Printer _printer = new Printer();
+//    private IO io = new MockIO();
+    private IO io;
 
-    public static Printer getInstance() {
-        return _printer;
+    public Printer(IO io) {
+        this.io = io;
     }
+
+//    public static Printer getInstance() {
+//        return _printer;
+//    }
 
     public void printRound(Board board) {
         printTopBottom();
 
-        printPlayer2(board.getPlayer2());
+        printPlayer2(board.getPlayer2(), board.getPlayer1());
         io.println("|    |-------+-------+-------+-------+-------+-------|    |");
-        printPlayer1(board.getPlayer1());
+        printPlayer1(board.getPlayer1(), board.getPlayer2());
 
         printTopBottom();
         return;
@@ -40,14 +44,14 @@ public class Printer {
     }
 
     public String playerMove(int playerId) {
-        return io.readFromKeyboard("Player P" + playerId + "'s turn - Specify house number of 'q' to quit: ");
+        return io.readFromKeyboard("Player P" + playerId + "'s turn - Specify house number or 'q' to quit: ");
     }
 
-    private void printPlayer1(Player player1) {
+    private void printPlayer1(Player player1, Player player2) {
         List<House> houses = player1.getPit().getHouses();
 
 
-        io.print("|  " + String.valueOf(player1.getPit().getStore().seedsInStore()) + " ");
+        io.print("|  " + String.valueOf(player2.getPit().getStore().seedsInStore()) + " ");
 
         for (int i = 1; i < NUMBER_OF_HOUSES + 1; i++) {
             io.print("| " + i + "[ " + houses.get(i - 1).seedsInHouse() + "] ");
@@ -57,7 +61,7 @@ public class Printer {
         return;
     }
 
-    private void printPlayer2(Player player2) {
+    private void printPlayer2(Player player2, Player player1) {
         List<House> houses = player2.getPit().getHouses();
 
         io.print("| P2 ");
@@ -66,7 +70,7 @@ public class Printer {
             io.print("| " + i + "[ " + houses.get(i - 1).seedsInHouse() + "] ");
         }
 
-        io.println("|  " + String.valueOf(player2.getPit().getStore().seedsInStore()) + " |");
+        io.println("|  " + String.valueOf(player1.getPit().getStore().seedsInStore()) + " |");
         return;
     }
 
