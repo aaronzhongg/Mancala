@@ -26,8 +26,8 @@ public class Rules {
      */
     public void capture(Pit movingPlayerPit, Pit otherPlayerPit, int endingHouse) {
 
-        if (movingPlayerPit.getHouses().get(endingHouse + 1).seedsInHouse() != 0) {
-            House h = otherPlayerPit.getHouses().get(endingHouse + 1);
+        if (movingPlayerPit.getHouses().get(endingHouse).seedsInHouse() == 0) {
+            House h = otherPlayerPit.getHouses().get(endingHouse);
 
             if (h.seedsInHouse() > 0 ) {
                 movingPlayerPit.getStore().capture(h.sowHouse()); // Empty opponents house and add to players store
@@ -65,6 +65,7 @@ public class Rules {
      * @return
      */
     public void playerMove(Board board, int chosenHouse) {
+        chosenHouse--;
         int playerId = board.getCurrentPlayerTurn();
         List<Player> players = board.getPlayers();
         Player movingPlayer = new Player();
@@ -94,8 +95,8 @@ public class Rules {
             seeds--;
 
             if (!checkIfAnySeedsRemaining(seeds)) { // If move ends here, check for capture
-                capture(movingPlayerPit, otherPlayerPit, chosenHouse);
-                board.getCurrentPlayerTurn();
+                capture(movingPlayerPit, otherPlayerPit, i);
+                board.nextPlayerTurn();
                 return;
             }
 
@@ -116,7 +117,7 @@ public class Rules {
                 seeds--;
 
                 if (!checkIfAnySeedsRemaining(seeds)) {
-                    board.getCurrentPlayerTurn();
+                    board.nextPlayerTurn();
                     return;
                 }
             }
@@ -127,8 +128,8 @@ public class Rules {
                 seeds--;
 
                 if (!checkIfAnySeedsRemaining(seeds)) {
-                    capture(movingPlayerPit, otherPlayerPit, chosenHouse);
-                    board.getCurrentPlayerTurn();
+                    capture(movingPlayerPit, otherPlayerPit, i);
+                    board.nextPlayerTurn();
                     return;
                 }
             }

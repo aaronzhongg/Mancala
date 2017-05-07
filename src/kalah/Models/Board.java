@@ -38,7 +38,7 @@ public class Board {
         if (_currentPlayerTurn + 1 > _players.size()) {
             _currentPlayerTurn = _players.get(0).getId();
         } else {
-            _currentPlayerTurn = _players.get(_currentPlayerTurn + 1).getId();
+            _currentPlayerTurn = _players.get(1).getId();
         }
 
     }
