@@ -5,6 +5,8 @@ public class Player{
     private int _id;
     private Pit _pit;
 
+    public Player() {}
+
     public Player(int id) {
         _pit = new Pit();
         _id = id;

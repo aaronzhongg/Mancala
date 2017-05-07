@@ -10,4 +10,12 @@ public class Store {
     public int seedsInStore() {
         return _seeds;
     }
+
+    public void addSeedToStore() {
+        _seeds += 1;
+    }
+
+    public void capture(int numOfSeeds) {
+        _seeds += numOfSeeds;
+    }
 }

@@ -14,4 +14,14 @@ public class House{
     public int seedsInHouse() {
         return _seed;
     }
+
+    public int sowHouse() {
+        int seedsInHouse = _seed;
+        _seed = 0;
+        return seedsInHouse;
+    }
+
+    public void incSeed() {
+        _seed += 1;
+    }
 }
