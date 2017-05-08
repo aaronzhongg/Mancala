@@ -1,5 +1,8 @@
 package kalah.Models;
 
+/**
+ * Store.java represents players' store
+ */
 public class Store {
     private int _seeds;
     

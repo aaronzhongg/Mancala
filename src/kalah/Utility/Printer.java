@@ -11,7 +11,7 @@ import java.util.List;
 import static kalah.Utility.GameConfig.NUMBER_OF_HOUSES;
 
 /**
- * Printer.java is a singleton to print the game out to console
+ * Printer.java is used to print the game out to console, handling all io
  */
 public class Printer {
     private IO io;
@@ -20,6 +20,10 @@ public class Printer {
         this.io = io;
     }
 
+    /**
+     * Prints a single round
+     * @param board
+     */
     public void printRound(Board board) {
         printTopBottom();
 
@@ -67,6 +71,10 @@ public class Printer {
         return;
     }
 
+    /**
+     * Print output for when "q" is entered
+     * @param board
+     */
     public void printQuit(Board board) {
         printGameOver();
         printRound(board);
@@ -83,6 +91,10 @@ public class Printer {
         return;
     }
 
+    /**
+     * format the seed string to handle double digit/single digit seed values
+     * @param seed
+     */
     public String formatSeedForPrinting(int seed) {
         if (seed > 9) {
             return String.valueOf(seed);
@@ -91,6 +103,10 @@ public class Printer {
         }
     }
 
+    /**
+     * print the full game stats and winner outcome
+     * @param board
+     */
     public void printFullGame(Board board) {
         int player1Score = board.getPlayer1().getPit().getStore().seedsInStore();
         int player2Score = board.getPlayer2().getPit().getStore().seedsInStore();

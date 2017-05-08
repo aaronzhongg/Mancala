@@ -9,7 +9,7 @@ import java.util.List;
 import static kalah.Utility.GameConfig.NUMBER_OF_HOUSES;
 
 /**
- * Rules.java is a singleton to decide the outcomes of a move and determine if the game is finished
+ * Rules.java is a class to decide the outcomes of a move and determine if the game is finished
  */
 public class Rules {
     private Printer printer;
@@ -37,6 +37,11 @@ public class Rules {
         return;
     }
 
+    /**
+     * check if next player moving has any moves (at least one seed in any of their houses)
+     * @param board
+     * @return true - no moves, game has ended. false - moves exist, game has not ended.
+     */
     public boolean gameEnded(Board board) {
         Player player = board.getPlayers().get(board.getCurrentPlayerTurn() - 1);
 
@@ -64,7 +69,6 @@ public class Rules {
      * This method handles the player's move and adjusts the board accordingly
      * @param board
      * @param chosenHouse
-     * @return
      */
     public void playerMove(Board board, int chosenHouse) {
         chosenHouse--;
@@ -143,6 +147,11 @@ public class Rules {
         return;
     }
 
+    /**
+     * Check if the seeds remaining
+     * @param seeds
+     * @return true - there are seeds remaining. false - no seeds remaining
+     */
     public boolean checkIfAnySeedsRemaining(int seeds) {
         if (seeds == 0) {
             return false;
@@ -150,6 +159,11 @@ public class Rules {
         return true;
     }
 
+    /**
+     * Get the opposite house number of input house
+     * @param house
+     * @return opposite house number
+     */
     public int getOppositeHouse(int house) {
         switch (house) {
             case 0:
@@ -169,6 +183,10 @@ public class Rules {
         }
     }
 
+    /**
+     * After the game has finished, add all of each player's remaining seeds in their houses to their store
+     * @param board
+     */
     public void scoreFullGame(Board board) {
         List<Player> players = board.getPlayers();
         for (Player p: players) {

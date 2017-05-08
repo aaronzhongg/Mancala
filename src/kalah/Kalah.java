@@ -16,22 +16,17 @@ public class Kalah {
 	public void play(IO io) {
 		Printer printer = new Printer(io);
 		Rules rules = new Rules(printer);
-		// Replace what's below with your implementation
-//		io.println("+----+-------+-------+-------+-------+-------+-------+----+");
-//		io.println("| P2 | 6[ 4] | 5[ 4] | 4[ 4] | 3[ 4] | 2[ 4] | 1[ 4] |  0 |");
-//		io.println("|    |-------+-------+-------+-------+-------+-------|    |");
-//		io.println("|  0 | 1[ 4] | 2[ 4] | 3[ 4] | 4[ 4] | 5[ 4] | 6[ 4] | P1 |");
-//		io.println("+----+-------+-------+-------+-------+-------+-------+----+");
-//		io.println("Player 1's turn - Specify house number or 'q' to quit: ");
 
 		Board board = new Board();
 		boolean fullGame = true;
 
+		// While loop to continue as long as each player has a move
 		while(!rules.gameEnded(board)) {
 			printer.printRound(board);
 
 			String playerMove = printer.playerMove(board.getCurrentPlayerTurn());
 
+			// Handle input (valid inputs only)
 			if (playerMove.equals("q")) {
 				fullGame = false;
 				break;
@@ -41,6 +36,7 @@ public class Kalah {
 			}
 
 		}
+		
 		if (!fullGame) {
 			printer.printQuit(board);
 		}

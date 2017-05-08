@@ -1,5 +1,8 @@
 package kalah.Models;
 
+/**
+ * Player.java represents a player object, with an id and pit ( house, store)
+ */
 public class Player{
 
     private int _id;

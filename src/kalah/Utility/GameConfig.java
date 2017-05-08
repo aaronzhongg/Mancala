@@ -1,5 +1,8 @@
 package kalah.Utility;
 
+/**
+ * Game configuration with constants
+ */
 public final class GameConfig {
     public static final int NUMBER_OF_PLAYERS = 2;
     public static final int NUMBER_OF_HOUSES = 6;
