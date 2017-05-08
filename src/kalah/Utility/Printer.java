@@ -14,18 +14,11 @@ import static kalah.Utility.GameConfig.NUMBER_OF_HOUSES;
  * Printer.java is a singleton to print the game out to console
  */
 public class Printer {
-
-//    private static Printer _printer = new Printer();
-//    private IO io = new MockIO();
     private IO io;
 
     public Printer(IO io) {
         this.io = io;
     }
-
-//    public static Printer getInstance() {
-//        return _printer;
-//    }
 
     public void printRound(Board board) {
         printTopBottom();
@@ -51,10 +44,10 @@ public class Printer {
         List<House> houses = player1.getPit().getHouses();
 
 
-        io.print("|  " + String.valueOf(player2.getPit().getStore().seedsInStore()) + " ");
+        io.print("| " + formatSeedForPrinting(player2.getPit().getStore().seedsInStore()) + " ");
 
         for (int i = 1; i < NUMBER_OF_HOUSES + 1; i++) {
-            io.print("| " + i + "[ " + houses.get(i - 1).seedsInHouse() + "] ");
+            io.print("| " + i + "[" + formatSeedForPrinting(houses.get(i - 1).seedsInHouse()) + "] ");
         }
 
         io.println("| P1 |");
@@ -67,16 +60,49 @@ public class Printer {
         io.print("| P2 ");
 
         for (int i = NUMBER_OF_HOUSES; i > 0; i--) {
-            io.print("| " + i + "[ " + houses.get(i - 1).seedsInHouse() + "] ");
+            io.print("| " + i + "[" + formatSeedForPrinting(houses.get(i - 1).seedsInHouse()) + "] ");
         }
 
-        io.println("|  " + String.valueOf(player1.getPit().getStore().seedsInStore()) + " |");
+        io.println("| " + formatSeedForPrinting(player1.getPit().getStore().seedsInStore()) + " |");
         return;
     }
 
-    public void printGameOver(Board board) {
-        io.println("Game over");
+    public void printQuit(Board board) {
+        printGameOver();
         printRound(board);
         return;
+    }
+
+    public void printGameOver() {
+        io.println("Game over");
+        return;
+    }
+
+    public void printEmptyHouse(){
+        io.println("House is empty. Move again.");
+        return;
+    }
+
+    public String formatSeedForPrinting(int seed) {
+        if (seed > 9) {
+            return String.valueOf(seed);
+        } else {
+            return " " + seed;
+        }
+    }
+
+    public void printFullGame(Board board) {
+        int player1Score = board.getPlayer1().getPit().getStore().seedsInStore();
+        int player2Score = board.getPlayer2().getPit().getStore().seedsInStore();
+        io.println("\tplayer 1:" + player1Score);
+        io.println("\tplayer 2:" + player2Score);
+
+        if (player1Score > player2Score) {
+            io.println("Player 1 wins!");
+        } else if (player2Score > player1Score) {
+            io.println("Player 2 wins!");
+        } else {
+            io.println("A tie!");
+        }
     }
 }

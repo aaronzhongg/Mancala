@@ -15,7 +15,7 @@ public class Kalah {
 	}
 	public void play(IO io) {
 		Printer printer = new Printer(io);
-		Rules rules = Rules.getInstance();
+		Rules rules = new Rules(printer);
 		// Replace what's below with your implementation
 //		io.println("+----+-------+-------+-------+-------+-------+-------+----+");
 //		io.println("| P2 | 6[ 4] | 5[ 4] | 4[ 4] | 3[ 4] | 2[ 4] | 1[ 4] |  0 |");
@@ -25,7 +25,7 @@ public class Kalah {
 //		io.println("Player 1's turn - Specify house number or 'q' to quit: ");
 
 		Board board = new Board();
-
+		boolean fullGame = true;
 
 		while(!rules.gameEnded(board)) {
 			printer.printRound(board);
@@ -33,13 +33,16 @@ public class Kalah {
 			String playerMove = printer.playerMove(board.getCurrentPlayerTurn());
 
 			if (playerMove.equals("q")) {
-				printer.printGameOver(board);
+				fullGame = false;
 				break;
 			} else {
 				int chosenHouse = Integer.parseInt(playerMove);
 				rules.playerMove(board, chosenHouse);
 			}
 
+		}
+		if (!fullGame) {
+			printer.printQuit(board);
 		}
 	}
 }
