@@ -36,7 +36,7 @@ public class Kalah {
 			}
 
 		}
-		
+
 		if (!fullGame) {
 			printer.printQuit(board);
 		}

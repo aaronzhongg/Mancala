@@ -1,3 +1,4 @@
+package  kalah.test;
 import junit.framework.TestCase;
 
 import com.qualitascorpus.testsupport.MockIO;

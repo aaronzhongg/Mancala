@@ -13,7 +13,7 @@ import static kalah.Utility.GameConfig.NUMBER_OF_HOUSES;
 /**
  * Printer.java is used to print the game out to console, handling all io
  */
-public class Printer {
+public class Printer implements IPrinter{
     private IO io;
 
     public Printer(IO io) {
@@ -35,7 +35,7 @@ public class Printer {
         return;
     }
 
-    private void printTopBottom() {
+    public void printTopBottom() {
         io.println("+----+-------+-------+-------+-------+-------+-------+----+");
         return;
     }
@@ -44,7 +44,7 @@ public class Printer {
         return io.readFromKeyboard("Player P" + playerId + "'s turn - Specify house number or 'q' to quit: ");
     }
 
-    private void printPlayer1(Player player1, Player player2) {
+    public void printPlayer1(Player player1, Player player2) {
         List<House> houses = player1.getPit().getHouses();
 
 
@@ -58,7 +58,7 @@ public class Printer {
         return;
     }
 
-    private void printPlayer2(Player player2, Player player1) {
+    public void printPlayer2(Player player2, Player player1) {
         List<House> houses = player2.getPit().getHouses();
 
         io.print("| P2 ");

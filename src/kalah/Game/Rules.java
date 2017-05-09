@@ -11,9 +11,9 @@ import static kalah.Utility.GameConfig.NUMBER_OF_HOUSES;
 /**
  * Rules.java is a class to decide the outcomes of a move and determine if the game is finished
  */
-public class Rules {
+public class Rules implements IRules{
     private Printer printer;
-
+    private GameHelper gameHelper = new GameHelper();
     public Rules(Printer printer) {
         this.printer = printer;
     }
@@ -21,10 +21,10 @@ public class Rules {
     /**
      * Check if the capture is successful (Player move ends on own house which has no seeds and opponents opposite house has at least one seed)
      * If successful - move all opponents opposite house's seeds to player's store then next player's turn?
-     * If unsuccessful - next players turn 1 3 3 6 1 4 2 5 2 2 4 6 2 5 1 1 3 3 6 4 5 2 3 4 6 2 4 1
+     * If unsuccessful - next players turn
      */
     public void capture(Pit movingPlayerPit, Pit otherPlayerPit, int endingHouse) {
-        int oppositeHouse = getOppositeHouse(endingHouse);
+        int oppositeHouse = gameHelper.getOppositeHouse(endingHouse);
         House lastHouse = movingPlayerPit.getHouses().get(endingHouse);
         if (lastHouse.seedsInHouse() == 1) {
             House h = otherPlayerPit.getHouses().get(oppositeHouse);
@@ -103,7 +103,7 @@ public class Rules {
                 movingPlayerHouses.get(i).incSeed();
                 seeds--;
 
-                if (!checkIfAnySeedsRemaining(seeds)) { // If move ends here, check for capture
+                if (!gameHelper.checkIfAnySeedsRemaining(seeds)) { // If move ends here, check for capture
                     capture(movingPlayerPit, otherPlayerPit, i);
                     board.nextPlayerTurn();
                     return;
@@ -111,12 +111,12 @@ public class Rules {
 
             }
 
-            while (checkIfAnySeedsRemaining(seeds)) {
+            while (gameHelper.checkIfAnySeedsRemaining(seeds)) {
                 // Add to store. If move ends, player gets another turn
                 movingPlayerStore.addSeedToStore();
                 seeds--;
 
-                if (!checkIfAnySeedsRemaining(seeds)) {
+                if (!gameHelper.checkIfAnySeedsRemaining(seeds)) {
                     return;
                 }
 
@@ -125,7 +125,7 @@ public class Rules {
                     otherPlayerHouses.get(i).incSeed();
                     seeds--;
 
-                    if (!checkIfAnySeedsRemaining(seeds)) {
+                    if (!gameHelper.checkIfAnySeedsRemaining(seeds)) {
                         board.nextPlayerTurn();
                         return;
                     }
@@ -136,7 +136,7 @@ public class Rules {
                     movingPlayerHouses.get(i).incSeed();
                     seeds--;
 
-                    if (!checkIfAnySeedsRemaining(seeds)) {
+                    if (!gameHelper.checkIfAnySeedsRemaining(seeds)) {
                         capture(movingPlayerPit, otherPlayerPit, i);
                         board.nextPlayerTurn();
                         return;
@@ -147,41 +147,7 @@ public class Rules {
         return;
     }
 
-    /**
-     * Check if the seeds remaining
-     * @param seeds
-     * @return true - there are seeds remaining. false - no seeds remaining
-     */
-    public boolean checkIfAnySeedsRemaining(int seeds) {
-        if (seeds == 0) {
-            return false;
-        }
-        return true;
-    }
 
-    /**
-     * Get the opposite house number of input house
-     * @param house
-     * @return opposite house number
-     */
-    public int getOppositeHouse(int house) {
-        switch (house) {
-            case 0:
-                return 5;
-            case 1:
-                return 4;
-            case 2:
-                return 3;
-            case 3:
-                return 2;
-            case 4:
-                return 1;
-            case 5:
-                return 0;
-            default:
-                return -1;
-        }
-    }
 
     /**
      * After the game has finished, add all of each player's remaining seeds in their houses to their store
