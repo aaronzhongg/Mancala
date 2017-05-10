@@ -9,6 +9,6 @@ import kalah.Models.Pit;
 public interface IRules {
     void capture(Pit movingPlayerPit, Pit otherPlayerPit, int endingHouse);
     boolean gameEnded(Board board);
-    void playerMove(Board board, int chosenHouse);
+    boolean playerMove(Board board, int chosenHouse);
     void scoreFullGame(Board board);
 }

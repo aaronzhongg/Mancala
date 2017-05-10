@@ -15,8 +15,8 @@ public class Kalah {
 	}
 	public void play(IO io) {
 		Printer printer = new Printer(io);
-		Rules rules = new Rules(printer);
-
+		Rules rules = new Rules();
+		boolean validMove;
 		Board board = new Board();
 		boolean fullGame = true;
 
@@ -32,13 +32,23 @@ public class Kalah {
 				break;
 			} else {
 				int chosenHouse = Integer.parseInt(playerMove);
-				rules.playerMove(board, chosenHouse);
+				validMove = rules.playerMove(board, chosenHouse);
+			}
+
+			if (!validMove) {
+				printer.printEmptyHouse();
 			}
 
 		}
 
 		if (!fullGame) {
 			printer.printQuit(board);
+		} else {
+			printer.printRound(board);
+			printer.printGameOver();
+			printer.printRound(board);
+			rules.scoreFullGame(board);
+			printer.printFullGame(board);
 		}
 	}
 }

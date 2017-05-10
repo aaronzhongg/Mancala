@@ -12,11 +12,8 @@ import static kalah.Utility.GameConfig.NUMBER_OF_HOUSES;
  * Rules.java is a class to decide the outcomes of a move and determine if the game is finished
  */
 public class Rules implements IRules{
-    private Printer printer;
     private GameHelper gameHelper = new GameHelper();
-    public Rules(Printer printer) {
-        this.printer = printer;
-    }
+    public Rules() { }
 
     /**
      * Check if the capture is successful (Player move ends on own house which has no seeds and opponents opposite house has at least one seed)
@@ -55,11 +52,6 @@ public class Rules implements IRules{
         }
 
         if (allHousesEmpty == true) {
-            printer.printRound(board);
-            printer.printGameOver();
-            printer.printRound(board);
-            scoreFullGame(board);
-            printer.printFullGame(board);
             return true;
             }
         return false;
@@ -70,7 +62,7 @@ public class Rules implements IRules{
      * @param board
      * @param chosenHouse
      */
-    public void playerMove(Board board, int chosenHouse) {
+    public boolean playerMove(Board board, int chosenHouse) {
         chosenHouse--;
         int playerId = board.getCurrentPlayerTurn();
         List<Player> players = board.getPlayers();
@@ -96,7 +88,7 @@ public class Rules implements IRules{
         int seeds = movingPlayerHouses.get(chosenHouse).sowHouse();
 
         if (seeds == 0) {
-            printer.printEmptyHouse();
+            return false;
         } else {
             // Add seeds to remainding houses
             for (int i = chosenHouse + 1; i < NUMBER_OF_HOUSES; i++) {
@@ -106,7 +98,7 @@ public class Rules implements IRules{
                 if (!gameHelper.checkIfAnySeedsRemaining(seeds)) { // If move ends here, check for capture
                     capture(movingPlayerPit, otherPlayerPit, i);
                     board.nextPlayerTurn();
-                    return;
+                    return true;
                 }
 
             }
@@ -117,7 +109,7 @@ public class Rules implements IRules{
                 seeds--;
 
                 if (!gameHelper.checkIfAnySeedsRemaining(seeds)) {
-                    return;
+                    return true;
                 }
 
                 // Add to other player houses. If ends here other player's turn
@@ -127,7 +119,7 @@ public class Rules implements IRules{
 
                     if (!gameHelper.checkIfAnySeedsRemaining(seeds)) {
                         board.nextPlayerTurn();
-                        return;
+                        return true;
                     }
                 }
 
@@ -139,12 +131,12 @@ public class Rules implements IRules{
                     if (!gameHelper.checkIfAnySeedsRemaining(seeds)) {
                         capture(movingPlayerPit, otherPlayerPit, i);
                         board.nextPlayerTurn();
-                        return;
+                        return true;
                     }
                 }
             }
         }
-        return;
+        return true;
     }
 
 
